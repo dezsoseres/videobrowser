@@ -9,15 +9,18 @@ features
 
 
 compiling
-
+```
 windows
 build.bat
 
 linux
 ./buildlinux.sh
+```
 
 run http server
+```
 ./videobrowser
+```
 
 
 
