@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>File Browser</title>
+<style>
+body { font-family: sans-serif; padding: 5px; }
+a { text-decoration: none; color: blue; }
+pre { background: #f0f0f0; padding: 5px; white-space: pre-wrap; }
+img, video { max-width: 100%; height: auto; margin-top: 5px; }
+</style>
+</head>
+<body>
+
+{{if .IsFileView}}
+    <a href="/?path={{.ParentPath}}"><< </a><br>
+    {{.CurrentPath}}<br>
+    {{if .IsImage}}
+        <img src="/?path={{.CurrentPath}}">
+    {{else if .IsVideo}}
+        <video controls>
+            <source src="/?path={{.CurrentPath}}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    {{else}}
+        <pre>{{.FileContent}}</pre>
+    {{end}}
+{{else}}
+    {{if not (eq .CurrentPath ".")}}
+        <a href="/?path={{.ParentPath}}"><< </a><br>
+        {{.CurrentPath}}<br>
+    {{end}}
+    {{range .Entries}}
+        {{if eq .Type "dir"}}
+            DIR <a href="/?path={{.Path}}">{{.Name}}</a><br>
+        {{else}}
+            <a href="/?path={{.Path}}">{{.Name}}</a><br>
+        {{end}}
+    {{end}}
+{{end}}
+
+</body>
+</html>
