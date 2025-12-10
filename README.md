@@ -9,6 +9,7 @@ features
 
 
 compiling
+---------
 ```
 windows
 build.bat
@@ -18,6 +19,7 @@ linux
 ```
 
 run http server
+---------------
 ```
 ./videobrowser
 ```
