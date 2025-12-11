@@ -1,2 +1,2 @@
-0.1 working version with file browsing 4 dirs deep, mp4 txt zip files are supported
-
+0.1  working version with file browsing 4 dirs deep, mp4 txt zip files are supported
+0.11 windows version generation added

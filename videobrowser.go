@@ -14,7 +14,7 @@ const (
 	baseDir  = "indir" // base directory
 	maxDepth = 4       // max depth from baseDir
 	prgname  = "videobrowser"
-	version  = "v0.1"
+	version  = "v0.11"
 	httpip   = "localhost"
 	httpport = "8900"
 )
