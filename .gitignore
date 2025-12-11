@@ -1,2 +1,4 @@
 *.exe
 *.rar
+go.mod
+go.sum

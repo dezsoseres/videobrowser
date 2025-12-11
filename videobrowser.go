@@ -8,6 +8,9 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	"io/ioutil"
+	"golang.org/x/text/encoding/charmap"
+	"golang.org/x/text/transform"
 )
 
 const (
@@ -93,7 +96,38 @@ func listDir(relPath string, depth int) ([]Entry, error) {
 	}
 	return result, nil
 }
+// ---------------- read from file with ascII conversion ----------------
+func readFileUTF8(path string) (string, error) {
 
+    raw, err := ioutil.ReadFile(path)
+    if err != nil {
+        return "", err
+    }
+
+    // Attempt CP852 decode (Eastern European DOS - most common for special ASCII art characters)
+    rdr := transform.NewReader(strings.NewReader(string(raw)), charmap.CodePage852.NewDecoder())
+    decoded, err := ioutil.ReadAll(rdr)
+    if err == nil {
+        return string(decoded), nil
+    }
+
+    // Fallback: CP437 (classic DOS)
+    rdr = transform.NewReader(strings.NewReader(string(raw)), charmap.CodePage437.NewDecoder())
+    decoded, err = ioutil.ReadAll(rdr)
+    if err == nil {
+        return string(decoded), nil
+    }
+
+    // Fallback: Windows-1250
+    rdr = transform.NewReader(strings.NewReader(string(raw)), charmap.Windows1250.NewDecoder())
+    decoded, err = ioutil.ReadAll(rdr)
+    if err == nil {
+        return string(decoded), nil
+    }
+
+    // If everything fails, return raw as UTF-8 (may contain ?)
+    return string(raw), nil
+}
 // ---------------- HTTP handler ----------------
 func handler(w http.ResponseWriter, r *http.Request) {
 	rel := r.URL.Query().Get("path")
@@ -146,7 +180,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			http.ServeFile(w, r, fullPath)
 			return
 		default:
-			content, err := os.ReadFile(fullPath)
+/*			content, err := os.ReadFile(fullPath)
+			if err != nil {
+				http.Error(w, "Could not read file", http.StatusInternalServerError)
+				return
+			}
+*/
+			content, err := readFileUTF8(fullPath)
 			if err != nil {
 				http.Error(w, "Could not read file", http.StatusInternalServerError)
 				return
@@ -163,7 +203,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl.Execute(w, data)
 }
-
 // ---------------- Main ----------------
 func main() {
 	// ensure baseDir exists

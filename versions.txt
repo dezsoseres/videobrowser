@@ -1,2 +1,3 @@
 0.1  working version with file browsing 4 dirs deep, mp4 txt zip files are supported
-0.11 windows version generation added
+0.11 windows version generation added, ASCII art display in txt file with no errors
+
