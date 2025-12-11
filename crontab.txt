@@ -1,8 +1,3 @@
-* * * * * /home/pi/weathermap_editor_docker-pi/watchdog_weathermap_editor_docker.sh
-#* * * * * /home/pi/vsftpd-docker-pi/watchdog_vsftpd_docker.sh
-#* * * * * /home/pi/vsftpd-docker-pi/watchdog_vsftpd_docker_custom.sh
-* * * * * /home/pi/go/src/nexus2qfx_cfggen/watchdog_cfggen.sh
-#* * * * * /home/pi/go/src/xrparse_frontend/watchdog_xrparse_frontend.sh
-#* * * * * /opt/videobrowser/watchdog_videobrowser.sh
+* * * * * /opt/videobrowser/watchdog_videobrowser.sh
 
 
